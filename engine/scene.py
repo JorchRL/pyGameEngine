@@ -1,7 +1,8 @@
 class Scene:
     """
     Base class for scenes. Each scene is independent and implements specific game logic.
-    Scenees do *not* control state transitions directly.
+    Scenes do *not* control state transitions directly.
+    A scene should manage scene lifecycle and describe conditions for exiting the scene.
     """
     def __init__(self, game):
         self.game = game  # Reference to the main game instance
@@ -23,3 +24,10 @@ class Scene:
         For example, on game-over or start-game events.
         :return:
         """
+    def on_enter(self):
+        """Called when this state is entered. Prepare resources or scene setup."""
+        pass
+
+    def on_exit(self):
+        """Called when this state is exited. Clean up resources if necessary."""
+        pass

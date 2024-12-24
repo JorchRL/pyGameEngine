@@ -1,8 +1,7 @@
 import pygame
 
 from game.constants import BLACK, WHITE, WIDTH, HEIGHT
-from scenes.gameplay_scene import GameplayScene
-from scenes.base_scene import Scene
+from engine.scene import Scene
 
 
 class NewGameScene(Scene):
@@ -10,11 +9,15 @@ class NewGameScene(Scene):
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.QUIT:
-                self.game.running = False
             if event.type == pygame.KEYDOWN:
                 # Start the game when any key is pressed
-                self.game.set_scene(GameplayScene(self.game))
+                self.game.set_scene("gameplay")
+
+    def on_enter(self):
+        print("Entering NewGameScene")
+
+    def on_exit(self):
+        print("Exiting NewGameScene")
 
     def draw(self, screen):
         screen.fill(BLACK)

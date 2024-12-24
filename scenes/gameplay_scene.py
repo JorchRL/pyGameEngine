@@ -3,8 +3,7 @@ import pygame
 from game.constants import WIDTH, HEIGHT, BLACK, BLUE, BLOCK_SIZE, GREEN, WHITE
 from game.fruit import Fruit
 from game.snake import Snake
-from scenes.game_over_scene import GameOverScene
-from scenes.base_scene import Scene
+from engine.scene import Scene
 
 
 class GameplayScene(Scene):
@@ -17,10 +16,18 @@ class GameplayScene(Scene):
         self.fruit = Fruit(WIDTH, HEIGHT)
         self.score = 0
 
+    def on_enter(self):
+        self.snake = Snake([100, 50])
+        self.fruit = Fruit(WIDTH, HEIGHT)
+        self.score = 0
+        print("Entering GameplayScene")
+
+    def on_exit(self):
+        print("Exiting GameplayScene")
+
+
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.QUIT:
-                self.game.running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP and self.snake.direction != "DOWN":
                     self.snake.direction = "UP"
@@ -47,7 +54,8 @@ class GameplayScene(Scene):
 
         # If snake is dead, switch to GameOverScene
         if not self.snake.alive:
-            self.game.set_scene(GameOverScene(self.game, self.score))
+            pass
+            self.game.set_scene("game_over")
 
     def draw(self, screen):
         screen.fill(BLACK)

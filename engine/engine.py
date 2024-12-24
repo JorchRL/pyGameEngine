@@ -1,8 +1,7 @@
 import pygame
 
 from engine.events import EventDispatcher
-from engine.fsm import FSM
-
+from engine.scenefsm import SceneFSM
 
 class Engine:
     """
@@ -11,20 +10,29 @@ class Engine:
     - Maintains the gameloop execution: input-handling
     """
 
-    def __init__(self):
+    def __init__(self, width, height, title, tick_rate):
+        pygame.init()
+        # global game state
         self.width = 800
         self.height = 600
         self.running = True
-        self.event_dispatcher = EventDispatcher()
-        self.fsm = FSM(self.event_dispatcher)
 
-    def set_initial_state(self, state):
+       # Pygame components
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption(title)
+        self.clock = pygame.time.Clock()
+        self.tick_rate = tick_rate
+
+        self.event_dispatcher = EventDispatcher()
+        self.fsm = SceneFSM(self.event_dispatcher)
+
+    def set_scene(self, scene):
         """
         Set the initial FSM state (e.g., NewGameScene, or the main menu)
-        :param state:
+        :param scene:
         :return:
         """
-        self.fsm.set_state(state)
+        self.fsm.set_scene(scene)
 
     def run(self):
         """
@@ -35,11 +43,27 @@ class Engine:
         :return:
         """
         while (self.running) :
+            # handle events
             events = pygame.event.get()
+            # The engine checks when to quit. Maybe should offer a callback instead?
             for event in events:
                 if event.type == pygame.QUIT:
                     self.running = False
-            for event in events:
-                self.fms.handle_event(event)
+            # Forward HANDLE_EVENTS request to FSM to call the
+            # handle_events method of the current running scene
+            self.fsm.handle_events(events)
+            # Forward UPDATE request to FSM to call the
+            # Update method of the current running scene
             self.fsm.update()
+
+            # Forward the RENDER request to FSM to call the
+            # render method of the current running scene
+            self.fsm.render(self.screen)
+            # Note: the Engine manages the screen, but injects
+            # it as a dependency for the scene
+
+            # Then swap buffers
             pygame.display.flip()
+            # And advance the clock
+            self.clock.tick(self.tick_rate)
+

@@ -1,24 +1,28 @@
 import pygame
 
 from game.constants import BLACK, RED, WHITE, WIDTH, HEIGHT
-from scenes.base_scene import Scene
-from scenes.new_game_scene import NewGameScene
+from engine.scene import Scene
 
 
 class GameOverScene(Scene):
     """Scene for the game over screen."""
 
-    def __init__(self, game, score):
+    def __init__(self, game):
         super().__init__(game)
-        self.score = score
+        self.score = 10
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.QUIT:
-                self.game.running = False
             if event.type == pygame.KEYDOWN:
+                pass
                 # Return to NewGameScene on any key press
-                self.game.set_scene(NewGameScene(self.game))
+                self.game.set_scene("main_menu")
+
+    def on_enter(self):
+        print("Entering GameOverScene")
+
+    def on_exit(self):
+        print("Exiting GameOverScene")
 
     def draw(self, screen):
         screen.fill(BLACK)
