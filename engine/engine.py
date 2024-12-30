@@ -2,6 +2,7 @@ import pygame
 
 from engine.events import EventDispatcher
 from engine.scenefsm import SceneFSM
+from engine.data_loader import DataLoader
 
 class Engine:
     """
@@ -25,6 +26,10 @@ class Engine:
 
         self.event_dispatcher = EventDispatcher()
         self.fsm = SceneFSM(self.event_dispatcher)
+
+        self.data_loader = DataLoader('units.json', 'resources.json')
+        self.units_data = self.data_loader.load_units()
+        self.resources_data = self.data_loader.load_resources()
 
     def set_scene(self, scene):
         """
