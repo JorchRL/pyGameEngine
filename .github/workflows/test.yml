@@ -25,13 +25,13 @@ jobs:
         pytest --maxfail=1 --disable-warnings || true
 
     - name: Generate last test attempt report
-      if: failure()
+      if: ${{failure()}}
       run: |
         pytest --maxfail=1 --disable-warnings > last_test_attempt_report.txt || true
         cat last_test_attempt_report.txt
 
     - name: Commit and push test report
-      if: failure()
+      if: ${{failure()}}
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
