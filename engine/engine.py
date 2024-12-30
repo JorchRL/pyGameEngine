@@ -14,8 +14,8 @@ class Engine:
     def __init__(self, width, height, title, tick_rate):
         pygame.init()
         # global game state
-        self.width = 800
-        self.height = 600
+        self.width = width
+        self.height = height
         self.running = True
 
        # Pygame components

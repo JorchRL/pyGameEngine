@@ -54,6 +54,9 @@ class GameplayScene(Scene):
 
         # If snake is dead, switch to GameOverScene
         if not self.snake.alive:
+            # The pass statement is used here as a placeholder.
+            # It indicates that no action is taken when the snake is dead.
+            # The game will switch to the GameOverScene.
             pass
             self.game.set_scene("game_over")
 
