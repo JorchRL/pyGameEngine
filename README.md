@@ -66,3 +66,9 @@ pyGameEngine/
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## GitHub Actions
+
+This project includes a GitHub action that runs unit tests on every push and pull request. If the tests fail, the action generates a test report file `last_test_attempt_report.txt` and commits it to the repository. The action then pushes the commit with the report file to the remote repository.
+
+The purpose of this action is to provide immediate feedback on test failures and ensure that the test report is available in the repository for further analysis.
